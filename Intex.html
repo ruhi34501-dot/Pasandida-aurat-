@@ -1,0 +1,821 @@
+
+
+
+`birthday-surprise.html`
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Love! 💖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: fadeInUp 2s ease-out;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            animation: fadeInUp 2s ease-out 0.5s both;
+        }
+
+        .countdown {
+            font-size: 2rem;
+            margin-top: 20px;
+            animation: fadeInUp 2s ease-out 1s both;
+        }
+
+        /* Video Message Section */
+        .video-section {
+            padding: 100px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 50px 0;
+            border-radius: 20px;
+        }
+
+        .video-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 450px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            background: white;
+        }
+
+        .play-button::before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 15px 0 15px 26px;
+            border-color: transparent transparent transparent #667eea;
+            margin-left: 5px;
+        }
+
+        /* Memories Section */
+        .memories {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .memory-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .memory-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        /* Message Section */
+        .message-section {
+            padding: 100px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+            margin: 50px 0;
+            border-radius: 20px;
+        }
+
+        .love-letter {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            color: #333;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .love-letter h2 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+        }
+
+        .love-letter p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Floating Hearts */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: floatHeart 8s linear infinite;
+            color: #ff6b6b;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatHeart {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .video-placeholder {
+                height: 300px;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            opacity: 0;
+            animation: confettiFall 5s linear infinite;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                opacity: 1;
+                transform: translateY(-100px) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts" id="hearts"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Happy Birthday, My Love! 🎂</h1>
+        <p>This special day is all about you, and I made this just to show how much you mean to me</p>
+        <div class="countdown" id="countdown">The celebration begins in...</div>
+    </section>
+
+    <!-- Video Message Section -->
+    <section class="video-section">
+        <h2>A Special Message Just For You</h2>
+        <div class="video-container">
+            <div class="video-placeholder" id="videoTrigger">
+                <div class="play-button"></div>
+            </div>
+        </div>
+        <p style="margin-top: 20px;">Click to play your special birthday message</p>
+    </section>
+
+    <!-- Memories Section -->
+    <section class="memories">
+        <h2>Our Beautiful Memories Together</h2>
+        <div class="gallery">
+            <div class="memory-card">
+                <img src="https://placehold.co/400x300/ff6b6b/white" alt="Romantic dinner date at our favorite restaurant with candlelight and wine" class="memory-image">
+                <h3>Our First Date</h3>
+                <p>The night I knew you were the one</p>
+            </div>
+            <div class="memory-card">
+                <img src="https://placehold.co/400x300/4ecdc4/white" alt="Beach sunset walk holding hands with golden hour lighting" class="memory-image">
+                <h3>Sunset Walks</h3>
+                <p>Every moment with you is magical</p>
+            </div>
+            <div class="memory-card">
+                <img src="https://placehold.co/400x300/667eea/white" alt="Laughing together during a picnic in the park with blanket and basket" class="memory-image">
+                <h3>Park Picnics</h3>
+                <p>Your laughter makes my world complete</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Love Message Section -->
+    <section class="message-section">
+        <div class="love-letter">
+            <h2>My Dearest Love,</h2>
+            <p>On this special day, I want you to know how incredibly blessed I am to have you in my life. Your smile brightens my darkest days, your laughter is my favorite melody, and your love is the greatest gift I've ever received.</p>
+            <p>You are the most amazing person I know - kind, beautiful, intelligent, and everything I could ever dream of. Watching you grow and achieve your dreams has been the honor of my life.</p>
+            <p>Today, and every day, I celebrate you. May this year bring you all the happiness, success, and love that you truly deserve. You are my everything.</p>
+            <p>With all my love,<br>Always and forever</p>
+        </div>
+    </section>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            for (let i = 0; i < 50; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 8 + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        // Create confetti
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                document.body.appendChild(confetti);
+            }
+        }
+
+        // Countdown timer
+        function updateCountdown() {
+            const now = new Date();
+            const birthday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1); // Tomorrow
+            const diff = birthday - now;
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown').innerHTML = 
+                `The celebration begins in...<br>${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        // Video message simulation
+        document.getElementById('videoTrigger').addEventListener('click', function() {
+            this.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                    <div style="text-align: center; color: white;">
+                        <h3 style="font-size: 2rem; margin-bottom: 20px;">🎥 Your Special Video Message</h3>
+                        <p style="font-size: 1.2rem;">Imagine this is your personalized birthday video message!</p>
+                        <p style="margin-top: 20px; font-style: italic;">(Replace this with your actual video URL)</p>
+                    </div>
+                </div>
+            `;
+            createConfetti();
+        });
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            createHearts();
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+            
+            // Add scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeInUp 1s ease-out forwards';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.memory-card, .love-letter').forEach(el => {
+                el.style.opacity = '0';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
+
+```
+
+🎨 **Generating images based on descriptions...**
+
+✅ **Images generated successfully! Here's your updated content:**
+
+`birthday-surprise.html`
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Love! 💖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: fadeInUp 2s ease-out;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            animation: fadeInUp 2s ease-out 0.5s both;
+        }
+
+        .countdown {
+            font-size: 2rem;
+            margin-top: 20px;
+            animation: fadeInUp 2s ease-out 1s both;
+        }
+
+        /* Video Message Section */
+        .video-section {
+            padding: 100px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 50px 0;
+            border-radius: 20px;
+        }
+
+        .video-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 450px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            background: white;
+        }
+
+        .play-button::before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 15px 0 15px 26px;
+            border-color: transparent transparent transparent #667eea;
+            margin-left: 5px;
+        }
+
+        /* Memories Section */
+        .memories {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .memory-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .memory-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        /* Message Section */
+        .message-section {
+            padding: 100px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+            margin: 50px 0;
+            border-radius: 20px;
+        }
+
+        .love-letter {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            color: #333;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .love-letter h2 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+        }
+
+        .love-letter p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Floating Hearts */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: floatHeart 8s linear infinite;
+            color: #ff6b6b;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatHeart {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .video-placeholder {
+                height: 300px;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            opacity: 0;
+            animation: confettiFall 5s linear infinite;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                opacity: 1;
+                transform: translateY(-100px) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts" id="hearts"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Happy Birthday, My Love! 🎂</h1>
+        <p>This special day is all about you, and I made this just to show how much you mean to me</p>
+        <div class="countdown" id="countdown">The celebration begins in...</div>
+    </section>
+
+    <!-- Video Message Section -->
+    <section class="video-section">
+        <h2>A Special Message Just For You</h2>
+        <div class="video-container">
+            <div class="video-placeholder" id="videoTrigger">
+                <div class="play-button"></div>
+            </div>
+        </div>
+        <p style="margin-top: 20px;">Click to play your special birthday message</p>
+    </section>
+
+    <!-- Memories Section -->
+    <section class="memories">
+        <h2>Our Beautiful Memories Together</h2>
+        <div class="gallery">
+            <div class="memory-card">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/96f02ad3-db9d-477e-b587-6b462bcf97ed.png" alt="Romantic dinner date at our favorite restaurant with candlelight and wine" class="memory-image">
+                <h3>Our First Date</h3>
+                <p>The night I knew you were the one</p>
+            </div>
+            <div class="memory-card">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/cb7f3554-d21a-45b0-9db7-7f44078d12ad.png" alt="Beach sunset walk holding hands with golden hour lighting" class="memory-image">
+                <h3>Sunset Walks</h3>
+                <p>Every moment with you is magical</p>
+            </div>
+            <div class="memory-card">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b52f3111-ef99-46ee-8e6f-5247f495afaa.png" alt="Laughing together during a picnic in the park with blanket and basket" class="memory-image">
+                <h3>Park Picnics</h3>
+                <p>Your laughter makes my world complete</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Love Message Section -->
+    <section class="message-section">
+        <div class="love-letter">
+            <h2>My Dearest Love,</h2>
+            <p>On this special day, I want you to know how incredibly blessed I am to have you in my life. Your smile brightens my darkest days, your laughter is my favorite melody, and your love is the greatest gift I've ever received.</p>
+            <p>You are the most amazing person I know - kind, beautiful, intelligent, and everything I could ever dream of. Watching you grow and achieve your dreams has been the honor of my life.</p>
+            <p>Today, and every day, I celebrate you. May this year bring you all the happiness, success, and love that you truly deserve. You are my everything.</p>
+            <p>With all my love,<br>Always and forever</p>
+        </div>
+    </section>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            for (let i = 0; i < 50; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 8 + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        // Create confetti
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                document.body.appendChild(confetti);
+            }
+        }
+
+        // Countdown timer
+        function updateCountdown() {
+            const now = new Date();
+            const birthday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1); // Tomorrow
+            const diff = birthday - now;
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown').innerHTML = 
+                `The celebration begins in...<br>${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        // Video message simulation
+        document.getElementById('videoTrigger').addEventListener('click', function() {
+            this.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                    <div style="text-align: center; color: white;">
+                        <h3 style="font-size: 2rem; margin-bottom: 20px;">🎥 Your Special Video Message</h3>
+                        <p style="font-size: 1.2rem;">Imagine this is your personalized birthday video message!</p>
+                        <p style="margin-top: 20px; font-style: italic;">(Replace this with your actual video URL)</p>
+                    </div>
+                </div>
+            `;
+            createConfetti();
+        });
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            createHearts();
+            setInterval(updateCountdo
